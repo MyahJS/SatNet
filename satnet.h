@@ -128,6 +128,9 @@ class SatNet{
     }
     //helper for getting the parent of a node
     Sat* getParent(Sat* satellite){
+        if (satellite==nullptr){
+            return nullptr;
+        }
         Sat* parent = nullptr;
         Sat* current = m_root;
         while (current->m_id!=satellite->m_id){
