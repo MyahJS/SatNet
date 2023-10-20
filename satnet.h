@@ -155,21 +155,35 @@ class SatNet{
     }
     //helper for left rotation
     Sat* leftRotate(Sat* x) {
+        // Sat* y = x->m_right;
+        // x->m_right = y->m_left;
+        // y->m_left = x;
+        // updateHeight(x);
+        // updateHeight(y);
+        // return y;
         Sat* y = x->m_right;
-        x->m_right = y->m_left;
+        Sat* T2 = y->m_left;
         y->m_left = x;
+        x->m_right = T2;
         updateHeight(x);
         updateHeight(y);
         return y;
     }
     //helper for right rotation
-    Sat* rightRotate(Sat* x) {
-        Sat* y = x->m_left;
-        x->m_left = y->m_right;
-        y->m_right = x;
-        updateHeight(x);
+    Sat* rightRotate(Sat* y) {
+        // Sat* y = x->m_left;
+        // x->m_left = y->m_right;
+        // y->m_right = x;
+        // updateHeight(x);
+        // updateHeight(y);
+        // return y;
+        Sat* x = y->m_left;
+        Sat* T2 = x->m_right;
+        x->m_right = y;
+        y->m_left = T2;
         updateHeight(y);
-        return y;
+        updateHeight(x);
+        return x;
     }
     //helper for left right rotation
     Sat* leftRightRotate(Sat* x) {
