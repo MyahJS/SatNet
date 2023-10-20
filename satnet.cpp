@@ -69,7 +69,7 @@ void SatNet::insert(const Sat& satellite){
         updateHeight(current);
         // move up the tree
         current = (current != m_root) ? parent : nullptr;
-        parent = (current != m_root) ? getParent(current) : nullptr;
+        parent = (current!=nullptr) ? getParent(current) : nullptr;
     }
     
     // check balance factors on path
