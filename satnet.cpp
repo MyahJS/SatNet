@@ -96,11 +96,9 @@ void SatNet::insert(const Sat& satellite){
             if (prevBalance<=0){
                 // left rotation here
                 current = leftRotate(current);
-                // parent->m_right = current;
             } else {
                 // right left rotation
                 current = rightLeftRotate(current);
-                // parent->m_right = current;
             }
         // check if left heavy
         } else if (balanceFactor>1){
@@ -108,11 +106,9 @@ void SatNet::insert(const Sat& satellite){
             if (prevBalance>=0){
                 // right rotation here
                 current = rightRotate(current);
-                // parent->m_left = current;
             } else {
                 // left right rotation here
                 current = leftRightRotate(current);
-                // parent->m_left = current;
             }
         }
         
