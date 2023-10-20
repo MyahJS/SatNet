@@ -69,14 +69,14 @@ void SatNet::insert(const Sat& satellite){
         updateHeight(current);
         // move up the tree
         current = (current != m_root) ? parent : nullptr;
-        parent = (current!=nullptr) ? getParent(current) : nullptr;
+        parent = getParent(current);
     }
     
     // check balance factors on path
     current = newNode;
     parent = getParent(current);
-    int leftHeight = (current->m_left) ? current->m_left->m_height : 0;
-    int rightHeight = (current->m_right) ? current->m_right->m_height : 0;
+    int leftHeight = (current->m_left!=nullptr) ? current->m_left->m_height : 0;
+    int rightHeight = (current->m_right!=nullptr) ? current->m_right->m_height : 0;
     // calculate balance factor
     int balanceFactor = leftHeight - rightHeight;
     int prevBalance = 0;
@@ -86,33 +86,35 @@ void SatNet::insert(const Sat& satellite){
         current = parent;
         parent = getParent(current);
 
-        leftHeight = (current->m_left) ? current->m_left->m_height : 0;
-        rightHeight = (current->m_right) ? current->m_right->m_height : 0;
-        balanceFactor = leftHeight - rightHeight;
+        if (current!=nullptr){
+            leftHeight = (current->m_left!=nullptr) ? current->m_left->m_height : 0;
+            rightHeight = (current->m_right!=nullptr) ? current->m_right->m_height : 0;
+            balanceFactor = leftHeight - rightHeight;
 
-        // check if right heavy
-        if (balanceFactor<(-1)){
-            // check if RR
-            if (prevBalance<=0){
-                // left rotation here
-                current = leftRotate(current);
-                parent->m_right = current;
-            } else {
-                // right left rotation
-                current = rightLeftRotate(current);
-                parent->m_right = current;
-            }
-        // check if left heavy
-        } else if (balanceFactor>1){
-            // check if LL
-            if (prevBalance>=0){
-                // right rotation here
-                current = rightRotate(current);
-                parent->m_left = current;
-            } else {
-                // left right rotation here
-                current = leftRightRotate(current);
-                parent->m_left = current;
+            // check if right heavy
+            if (balanceFactor<(-1)){
+                // check if RR
+                if (prevBalance<=0){
+                    // left rotation here
+                    current = leftRotate(current);
+                    parent->m_right = current;
+                } else {
+                    // right left rotation
+                    current = rightLeftRotate(current);
+                    parent->m_right = current;
+                }
+            // check if left heavy
+            } else if (balanceFactor>1){
+                // check if LL
+                if (prevBalance>=0){
+                    // right rotation here
+                    current = rightRotate(current);
+                    parent->m_left = current;
+                } else {
+                    // left right rotation here
+                    current = leftRightRotate(current);
+                    parent->m_left = current;
+                }
             }
         }
     }
