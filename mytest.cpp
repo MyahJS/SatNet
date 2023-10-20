@@ -127,6 +127,7 @@ int main(){
                     static_cast<ALT>(altGen.getRandNum()),
                     static_cast<INCLIN>(inclinGen.getRandNum()));
         network.insert(satellite);
+        network.dumpTree();
     }
     cout << "\nDump after inserting " << teamSize << " nodes:\n\n";
     network.dumpTree();
