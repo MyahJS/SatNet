@@ -39,7 +39,11 @@ void SatNet::insert(const Sat& satellite){
         m_root = newNode;
     } else {
         // insert the node recursively using helper
-        m_root = insertRecursive(m_root, newNode);
+        Sat* new_root = insertRecursive(m_root, newNode);
+        // check if insert was successful
+        if (new_root){
+            m_root = new_root;
+        }
     }
 
     // // check validity
