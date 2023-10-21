@@ -26,7 +26,7 @@ void SatNet::insert(const Sat& satellite){
     // check validity
     if (newNode->m_id < MINID || newNode->m_id > MAXID){
         delete newNode; // deallocate memory
-        throw runtime_error("Invalid ID. Cannot insert the satellite.");
+        cout << "Invalid ID. Cannot insert the satellite." << endl;
     }
 
     // if the tree is empty, make the new node the root
@@ -45,7 +45,7 @@ void SatNet::insert(const Sat& satellite){
         // check if duplicate
         if (newNode->m_id == current->m_id){
             delete newNode; // Deallocate memory
-            throw runtime_error("Duplicate ID. Cannot insert the satellite.");
+            cout << "Duplicate ID. Cannot insert the satellite." << endl;
         }
 
         if (newNode->m_id < current->m_id){
@@ -116,6 +116,7 @@ void SatNet::insert(const Sat& satellite){
         current = (current != m_root) ? parent : nullptr;
         parent = getParent(current);
     }
+    cout << "Inserted node with ID: " << newNode->m_id << "at height: " << newNode->m_height << endl;
 }
 
 void SatNet::clear(){
