@@ -63,7 +63,8 @@ void SatNet::insert(const Sat& satellite){
     }
 
     // update heights on path
-    current = newNode;
+    current = parent;
+    parent = getParent(current);
     while (current!=nullptr){
         // update height of current node
         updateHeight(current);
@@ -112,9 +113,6 @@ void SatNet::insert(const Sat& satellite){
             }
         }
         
-        if (current->m_id==m_root->m_id){
-            m_root = current;
-        }
         // move up the tree
         current = (current != m_root) ? parent : nullptr;
         parent = getParent(current);
