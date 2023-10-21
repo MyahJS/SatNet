@@ -73,50 +73,50 @@ void SatNet::insert(const Sat& satellite){
         parent = getParent(current);
     }
     
-    // check balance factors on path
-    current = newNode;
-    parent = getParent(current);
-    int leftHeight = (current->m_left!=nullptr) ? current->m_left->m_height : 0;
-    int rightHeight = (current->m_right!=nullptr) ? current->m_right->m_height : 0;
-    // calculate balance factor
-    int balanceFactor = leftHeight - rightHeight;
-    int prevBalance = 0;
+    // // check balance factors on path
+    // current = newNode;
+    // parent = getParent(current);
+    // int leftHeight = (current->m_left!=nullptr) ? current->m_left->m_height : 0;
+    // int rightHeight = (current->m_right!=nullptr) ? current->m_right->m_height : 0;
+    // // calculate balance factor
+    // int balanceFactor = leftHeight - rightHeight;
+    // int prevBalance = 0;
 
-    while (parent!=nullptr){
-        prevBalance = balanceFactor;
-        current = parent;
-        parent = getParent(current);
+    // while (parent!=nullptr){
+    //     prevBalance = balanceFactor;
+    //     current = parent;
+    //     parent = getParent(current);
 
-        leftHeight = (current->m_left!=nullptr) ? current->m_left->m_height : 0;
-        rightHeight = (current->m_right!=nullptr) ? current->m_right->m_height : 0;
-        balanceFactor = leftHeight - rightHeight;
+    //     leftHeight = (current->m_left!=nullptr) ? current->m_left->m_height : 0;
+    //     rightHeight = (current->m_right!=nullptr) ? current->m_right->m_height : 0;
+    //     balanceFactor = leftHeight - rightHeight;
 
-        // check if right heavy
-        if (balanceFactor<(-1)){
-            // check if RR
-            if (prevBalance<=0){
-                // left rotation here
-                current = leftRotate(current);
-            } else {
-                // right left rotation
-                current = rightLeftRotate(current);
-            }
-        // check if left heavy
-        } else if (balanceFactor>1){
-            // check if LL
-            if (prevBalance>=0){
-                // right rotation here
-                current = rightRotate(current);
-            } else {
-                // left right rotation here
-                current = leftRightRotate(current);
-            }
-        }
+    //     // check if right heavy
+    //     if (balanceFactor<(-1)){
+    //         // check if RR
+    //         if (prevBalance<=0){
+    //             // left rotation here
+    //             current = leftRotate(current);
+    //         } else {
+    //             // right left rotation
+    //             current = rightLeftRotate(current);
+    //         }
+    //     // check if left heavy
+    //     } else if (balanceFactor>1){
+    //         // check if LL
+    //         if (prevBalance>=0){
+    //             // right rotation here
+    //             current = rightRotate(current);
+    //         } else {
+    //             // left right rotation here
+    //             current = leftRightRotate(current);
+    //         }
+    //     }
         
-        // move up the tree
-        current = (current != m_root) ? parent : nullptr;
-        parent = getParent(current);
-    }
+    //     // move up the tree
+    //     current = (current != m_root) ? parent : nullptr;
+    //     parent = getParent(current);
+    // }
 }
 
 void SatNet::clear(){
