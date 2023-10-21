@@ -133,6 +133,10 @@ int main(){
     cout << "\nDump after inserting " << teamSize << " nodes:\n\n";
     network.dumpTree();
 
+    network.remove(tempID);
+    cout << "\nDump after removig the node with ID: " << tempID << "\n\n";
+    network.dumpTree();
+
     return 0;
 }
 
