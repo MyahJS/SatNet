@@ -65,7 +65,8 @@ void SatNet::insert(const Sat& satellite){
     }
 
     // update heights on path
-    current = newNode;
+    current = parent;
+    parent = getParent(current);
     while (current!=nullptr){
         // update height of current node
         updateHeight(current);

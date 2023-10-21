@@ -120,11 +120,12 @@ class SatNet{
 
     //helper for deallocating tree
     void destroyTree(Sat* satellite){
-        if (satellite){
-            destroyTree(satellite->m_left);
-            destroyTree(satellite->m_right);
-            delete satellite;
+        if (satellite==nullptr){
+            return;
         }
+        destroyTree(satellite->m_left);
+        destroyTree(satellite->m_right);
+        delete satellite;
     }
     //helper for getting the parent of a node
     Sat* getParent(Sat* satellite){
@@ -150,15 +151,15 @@ class SatNet{
             int leftHeight = (node->m_left) ? node->m_left->m_height : 0;
             // get height of right child if exists
             int rightHeight = (node->m_right) ? node->m_right->m_height : 0;
-            node->m_height = ((node->m_left==nullptr)&&(node->m_right==nullptr)) ? 0 : max(leftHeight, rightHeight) + 1;
+            node->m_height = max(leftHeight, rightHeight) + 1;
         }
     }
     //helper for left rotation
     Sat* leftRotate(Sat* x) {
         Sat* y = x->m_right;
         Sat* T2 = y->m_left;
-        y->setLeft(x);
-        x->setRight(T2);
+        y->m_left = x;
+        x->m_right = T2;
         updateHeight(x);
         updateHeight(y);
         return y;
@@ -167,8 +168,8 @@ class SatNet{
     Sat* rightRotate(Sat* y) {
         Sat* x = y->m_left;
         Sat* T2 = x->m_right;
-        x->setRight(y);
-        y->setLeft(T2);
+        x->m_right = y;
+        y->m_left = T2;
         updateHeight(y);
         updateHeight(x);
         return x;
