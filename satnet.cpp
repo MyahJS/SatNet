@@ -81,6 +81,7 @@ void SatNet::insert(const Sat& satellite){
     int balanceFactor = 0;  // balance factor of current node
     int prevBalance = 0;    // balance factor of current node's child
 
+    // iterate up path
     while (current!=nullptr){
         prevBalance = balanceFactor;
 

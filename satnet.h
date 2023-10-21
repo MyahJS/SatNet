@@ -156,7 +156,6 @@ class SatNet{
     //helper for left rotation
     Sat* leftRotate(Sat* x) {
         Sat* y = x->m_right;
-        x->setRight(nullptr);
         y->setLeft(x);
         updateHeight(x);
         updateHeight(y);
@@ -165,7 +164,6 @@ class SatNet{
     //helper for right rotation
     Sat* rightRotate(Sat* x) {
         Sat* y = x->m_left;
-        x->setLeft(nullptr);
         y->setRight(x);
         updateHeight(x);
         updateHeight(y);
