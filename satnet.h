@@ -150,7 +150,7 @@ class SatNet{
             int leftHeight = (node->m_left) ? node->m_left->m_height : 0;
             // get height of right child if exists
             int rightHeight = (node->m_right) ? node->m_right->m_height : 0;
-            node->m_height = ((node->m_left==nullptr)&&(node->m_right==nullptr)) ? 0 : 1+max(leftHeight, rightHeight);
+            node->m_height = ((node->m_left==nullptr)&&(node->m_right==nullptr)) ? 0 : max(leftHeight, rightHeight) + 1;
         }
     }
     //helper for left rotation
