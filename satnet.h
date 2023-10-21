@@ -214,6 +214,79 @@ class SatNet{
 
         return root;
     }
+    //helper for finding the leftmost node in a subtree (for finding inorder successor)
+    Sat* findMinNode(Sat* node) {
+        Sat* current = node;
+        
+        while (current->getLeft() != nullptr) {
+            current = current->getLeft();
+        }
+        
+        return current;
+    }
+    //helper for removing a node using recursion
+    Sat* removeRecursive(Sat* root, int id) {
+        if (root == nullptr)
+            return root;
+
+        // Find the node to remove
+        if (id < root->getID())
+            root->setLeft(removeRecursive(root->getLeft(), id));
+        else if (id > root->getID())
+            root->setRight(removeRecursive(root->getRight(), id));
+        else {
+            // Node found, perform removal
+            if (root->getLeft() == nullptr || root->getRight() == nullptr) {
+                Sat* temp = root->getLeft() ? root->getLeft() : root->getRight();
+
+                if (temp == nullptr) {
+                    temp = root;
+                    root = nullptr;
+                } else
+                    *root = *temp;
+
+                delete temp;
+            } else {
+                // Node with two children, find the inorder successor
+                Sat* temp = findMinNode(root->getRight());
+
+                // Copy the inorder successor's data to this node
+                *root = *temp;
+
+                // Delete the inorder successor
+                root->setRight(removeRecursive(root->getRight(), temp->getID()));
+            }
+        }
+
+        // check if tree is now empty
+        if (root == nullptr)
+            return root;
+
+        // update height of current node
+        root->setHeight(1 + max(getHeight(root->getLeft()), getHeight(root->getRight())));
+
+        // check for imbalance 
+        int balance = getBalance(root);
+
+        // LL: right rotation
+        if (balance > 1 && getBalance(root->getLeft()) >= 0)
+            return rotateRight(root);
+        // RR: left rotation
+        if (balance < -1 && getBalance(root->getRight()) <= 0)
+            return rotateLeft(root);
+        // LR: left right rotation
+        if (balance > 1 && getBalance(root->getLeft()) < 0) {
+            root->setLeft(rotateLeft(root->getLeft()));
+            return rotateRight(root);
+        }
+        // RL: right left rotation
+        if (balance < -1 && getBalance(root->getRight()) > 0) {
+            root->setRight(rotateRight(root->getRight()));
+            return rotateLeft(root);
+        }
+
+        return root;
+    }
 
     // //helper for deallocating tree
     // void destroyTree(Sat* satellite){

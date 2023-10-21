@@ -45,112 +45,6 @@ void SatNet::insert(const Sat& satellite){
             m_root = new_root;
         }
     }
-
-    // // check validity
-    // if (satellite.m_id < MINID || satellite.m_id > MAXID){
-    //     cout << "Invalid ID. Cannot insert the satellite." << endl;
-    //     return;
-    // }
-
-    // Sat* newNode = new Sat(satellite.m_id, satellite.m_altitude, satellite.m_inclin, satellite.m_state);
-
-    // // if the tree is empty, make the new node the root
-    // if (m_root == nullptr){
-    //     m_root = newNode;
-    //     return;
-    // }
-
-    // // initialize parent and current pointers for traversal
-    // Sat* parent = nullptr;
-    // Sat* current = m_root;
-
-    // while (current){
-    //     parent = current;
-
-    //     // check if duplicate
-    //     if (newNode->m_id == current->m_id){
-    //         delete newNode; // Deallocate memory
-    //         cout << "Duplicate ID. Cannot insert the satellite." << endl;
-    //         return;
-    //     }
-
-    //     if (newNode->m_id < current->m_id){
-    //         current = current->m_left;
-    //     } else {
-    //         current = current->m_right;
-    //     }
-    // }
-
-    // // insert node on left or right based on id
-    // if (newNode->m_id < parent->m_id){
-    //     parent->m_left = newNode;
-    // } else {
-    //     parent->m_right = newNode;
-    // }
-
-    // // update heights on path
-    // current = parent;
-    // parent = getParent(current);
-    // while (current!=nullptr){
-    //     // update height of current node
-    //     updateHeight(current);
-    //     // move up the tree
-    //     current = parent;
-    //     parent = getParent(current);
-    // }
-
-    // // check balance factors on path
-    // // fix imbalance when problem node found
-    // current = newNode;
-    // parent = getParent(current);
-    // int leftHeight = 0;     // height of left child
-    // int rightHeight = 0;    // height of right child
-    // int balanceFactor = 0;  // balance factor of current node
-    // int prevBalance = 0;    // balance factor of current node's child
-
-    // while (current!=nullptr){
-    //     prevBalance = balanceFactor;
-
-    //     leftHeight = (current->m_left!=nullptr) ? current->m_left->m_height : 0;
-    //     rightHeight = (current->m_right!=nullptr) ? current->m_right->m_height : 0;
-    //     balanceFactor = leftHeight - rightHeight;
-
-    //     // check if right heavy
-    //     if (balanceFactor<(-1)){
-    //         // check if RR
-    //         if (prevBalance<=0){
-    //             // left rotation here
-    //             current = leftRotate(current);
-    //         } else {
-    //             // right left rotation
-    //             current = rightLeftRotate(current);
-    //         }
-    //         if (parent==nullptr){
-    //             m_root = current;
-    //         } else {
-    //             parent->setRight(current);
-    //         }
-    //     // check if left heavy
-    //     } else if (balanceFactor>1){
-    //         // check if LL
-    //         if (prevBalance>=0){
-    //             // right rotation here
-    //             current = rightRotate(current);
-    //         } else {
-    //             // left right rotation here
-    //             current = leftRightRotate(current);
-    //         }
-    //         if (parent==nullptr){
-    //             m_root = current;
-    //         } else {
-    //             parent->setLeft(current);
-    //         }
-    //     }
-
-    //     // move up tree
-    //     current = parent;
-    //     parent = getParent(current);
-    // }
 }
 
 void SatNet::clear(){
@@ -172,6 +66,14 @@ void SatNet::remove(int id){
     // preconditions: tree is not empty
     // postconditions: if node with passed id is in tree, remove node,
     //  update heights, check for imbalance, fix imbalance
+
+    // check if id is in tree
+    if (!findSatellite(id)) {
+        cout << "ID " << id << " not found. Removal failed." << endl;
+        return;
+    }
+    // remove node recursively using helper
+    m_root = removeRecursive(m_root, id);
 
     // if (m_root==nullptr){
     //     cout << "Network is empty. Cannot delete satellite." << endl;
@@ -299,7 +201,25 @@ void SatNet::removeDeorbited(){
 }
 
 bool SatNet::findSatellite(int id) const {
-    
+    // FindSatellite
+    // preconditions: tree exists
+    // postconditions: return true if passed id is in the tree, else return false
+
+    if (m_root==nullptr)
+        return false;
+
+    Sat* current = m_root;
+    while (current!=nullptr){
+        if (id<current->getID()){
+            current = current->getLeft();
+        } else if (id>current->getID()){
+            current = current->getRight();
+        } else {
+            return true;
+        }
+    }
+
+    return false;   
 }
 
 const SatNet & SatNet::operator=(const SatNet & rhs){
