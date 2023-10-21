@@ -98,6 +98,11 @@ void SatNet::insert(const Sat& satellite){
                 // right left rotation
                 current = rightLeftRotate(current);
             }
+            if (current->m_id==m_root->m_id){
+                m_root = current;
+            } else {
+                parent->setRight(current);
+            }
         // check if left heavy
         } else if (balanceFactor>1){
             // check if LL
@@ -108,8 +113,12 @@ void SatNet::insert(const Sat& satellite){
                 // left right rotation here
                 current = leftRightRotate(current);
             }
+            if (current->m_id==m_root->m_id){
+                m_root = current;
+            } else {
+                parent->setLeft(current);
+            }
         }
-
 
         // move up tree
         current = parent;
