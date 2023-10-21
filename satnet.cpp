@@ -112,11 +112,13 @@ void SatNet::insert(const Sat& satellite){
             }
         }
         
+        if (current->m_id==m_root->m_id){
+            m_root = current;
+        }
         // move up the tree
         current = (current != m_root) ? parent : nullptr;
         parent = getParent(current);
     }
-    cout << "Inserted node with ID: " << newNode->m_id << "at height: " << newNode->m_height << endl;
 }
 
 void SatNet::clear(){
