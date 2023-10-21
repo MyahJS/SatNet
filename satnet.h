@@ -150,37 +150,25 @@ class SatNet{
             int leftHeight = (node->m_left) ? node->m_left->m_height : 0;
             // get height of right child if exists
             int rightHeight = (node->m_right) ? node->m_right->m_height : 0;
-            node->m_height = 1 + max(leftHeight, rightHeight);
+            node->m_height = ((leftHeight!=0||(rightHeight!=0))) ? 1 + max(leftHeight, rightHeight) : 0;
         }
     }
     //helper for left rotation
     Sat* leftRotate(Sat* x) {
-        // Sat* y = x->m_right;
-        // x->m_right = y->m_left;
-        // y->m_left = x;
-        // updateHeight(x);
-        // updateHeight(y);
-        // return y;
         Sat* y = x->m_right;
         Sat* T2 = y->m_left;
-        y->m_left = x;
-        x->m_right = T2;
+        y->setLeft(x);
+        x->setRight(T2);
         updateHeight(x);
         updateHeight(y);
         return y;
     }
     //helper for right rotation
     Sat* rightRotate(Sat* y) {
-        // Sat* y = x->m_left;
-        // x->m_left = y->m_right;
-        // y->m_right = x;
-        // updateHeight(x);
-        // updateHeight(y);
-        // return y;
         Sat* x = y->m_left;
         Sat* T2 = x->m_right;
-        x->m_right = y;
-        y->m_left = T2;
+        x->setRight(y);
+        y->setLeft(T2);
         updateHeight(y);
         updateHeight(x);
         return x;
