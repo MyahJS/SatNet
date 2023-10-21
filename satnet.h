@@ -150,37 +150,35 @@ class SatNet{
             int leftHeight = (node->m_left) ? node->m_left->m_height : 0;
             // get height of right child if exists
             int rightHeight = (node->m_right) ? node->m_right->m_height : 0;
-            node->m_height = ((leftHeight!=0||(rightHeight!=0))) ? 1 + max(leftHeight, rightHeight) : 0;
+            node->m_height = ((node->m_left==nullptr)&&(node->m_right==nullptr)) ? 0 : 1+max(leftHeight, rightHeight);
         }
     }
     //helper for left rotation
     Sat* leftRotate(Sat* x) {
         Sat* y = x->m_right;
-        Sat* T2 = y->m_left;
+        x->setRight(nullptr);
         y->setLeft(x);
-        x->setRight(T2);
         updateHeight(x);
         updateHeight(y);
         return y;
     }
     //helper for right rotation
-    Sat* rightRotate(Sat* y) {
-        Sat* x = y->m_left;
-        Sat* T2 = x->m_right;
-        x->setRight(y);
-        y->setLeft(T2);
-        updateHeight(y);
+    Sat* rightRotate(Sat* x) {
+        Sat* y = x->m_left;
+        x->setLeft(nullptr);
+        y->setRight(x);
         updateHeight(x);
-        return x;
+        updateHeight(y);
+        return y;
     }
     //helper for left right rotation
     Sat* leftRightRotate(Sat* x) {
-        x->m_left = leftRotate(x->m_left);
+        x->setLeft(leftRotate(x->m_left));
         return rightRotate(x);
     }
     //helper for right left rotation
     Sat* rightLeftRotate(Sat* x) {
-        x->m_right = rightRotate(x->m_right);
+        x->setRight(rightRotate(x->m_right));
         return leftRotate(x);
     }
     //helper for getting inorder predecessor
