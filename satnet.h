@@ -156,27 +156,31 @@ class SatNet{
     //helper for left rotation
     Sat* leftRotate(Sat* x) {
         Sat* y = x->m_right;
+        Sat* T2 = y->m_left;
         y->setLeft(x);
+        x->setRight(T2);
         updateHeight(x);
         updateHeight(y);
         return y;
     }
     //helper for right rotation
-    Sat* rightRotate(Sat* x) {
-        Sat* y = x->m_left;
-        y->setRight(x);
-        updateHeight(x);
+    Sat* rightRotate(Sat* y) {
+        Sat* x = y->m_left;
+        Sat* T2 = x->m_right;
+        x->setRight(y);
+        y->setLeft(T2);
         updateHeight(y);
-        return y;
+        updateHeight(x);
+        return x;
     }
     //helper for left right rotation
     Sat* leftRightRotate(Sat* x) {
-        x->setLeft(leftRotate(x->m_left));
+        x->m_left = leftRotate(x->m_left);
         return rightRotate(x);
     }
     //helper for right left rotation
     Sat* rightLeftRotate(Sat* x) {
-        x->setRight(rightRotate(x->m_right));
+        x->m_right = rightRotate(x->m_right);
         return leftRotate(x);
     }
     //helper for getting inorder predecessor
