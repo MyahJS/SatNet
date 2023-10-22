@@ -84,7 +84,7 @@ void SatNet::listSatellites() const {
     // preconditions: network exists
     // postconditions: prints all the members of each node in the tree
     cout << endl;
-    listNodes(m_root);
+    listNodes(m_root); // helper function for using recursion
     cout << endl;
 }
 

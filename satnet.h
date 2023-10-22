@@ -296,7 +296,7 @@ class SatNet{
         // visit left child
         listNodes(satellite->m_left);
         // print members of current node
-        cout << satellite->getID() << ": " << satellite->getState() << ": " << satellite->getInclinStr() << ": " << satellite->getAltStr() << endl;
+        cout << satellite->getID() << ": " << satellite->getStateStr() << ": " << satellite->getInclinStr() << ": " << satellite->getAltStr() << endl;
         // visit right child
         listNodes(satellite->getRight());
     }
