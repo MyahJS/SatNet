@@ -135,6 +135,7 @@ int main(){
     cout << endl;
 
     network.setState(tempID, DEORBITED);
+    network.listSatellites();
     network.removeDeorbited();
     cout << "\nDump after removig the node with ID: " << tempID << "\n\n";
     network.dumpTree();
