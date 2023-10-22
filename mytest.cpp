@@ -143,7 +143,13 @@ int main(){
     network.listSatellites();
     cout << endl;
 
-
+    SatNet network2;
+    network2 = network;
+    cout << "\nDump after copying data from previous network:" << "\n\n";
+    network2.dumpTree();
+    cout << "\n\nList of satellites after copying data from previous network:\n";
+    network2.listSatellites();
+    cout << endl;
 
     return 0;
 }

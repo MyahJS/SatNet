@@ -141,7 +141,15 @@ bool SatNet::findSatellite(int id) const {
 }
 
 const SatNet & SatNet::operator=(const SatNet & rhs){
-    
+    // Overloaded assignment operator
+    // preconditions: lhs exists and rhs exists
+    // postconditions: create deep copy of rhs
+    if (this != &rhs){
+        clear();
+        copyRecursive(rhs.m_root); // recursive helper function;
+    }
+
+    return *this;
 }
 
 int SatNet::countSatellites(INCLIN degree) const{

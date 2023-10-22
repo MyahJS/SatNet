@@ -174,7 +174,7 @@ class SatNet{
             return newNode;
         }
 
-        // Insert the node based on the ID as the key
+        // insert node based on id
         if (newNode->getID() < root->getID()) {
             root->setLeft(insertRecursive(root->getLeft(), newNode));
         } else if (newNode->getID() > root->getID()) {
@@ -318,6 +318,27 @@ class SatNet{
         }
         
         return satellite;
+    }
+    //helper to recursively copy the data
+    void copyRecursive(const Sat* root){
+        if (root==nullptr)
+            return;
+        Sat data;
+        data.setID(root->getID());
+        data.setState(root->getState());
+        data.setInclin(root->getInclin());
+        data.setAlt(root->getAlt());
+        data.setHeight(root->getHeight());
+        data.setLeft(root->getLeft());
+        data.setRight(root->getRight());
+
+        // insert current rhs node data into new tree
+        this->insert(data);
+        
+        // visit left child
+        copyRecursive(root->getLeft());
+        // visit right child
+        copyRecursive(root->getRight());
     }
 };
 
