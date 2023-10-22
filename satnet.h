@@ -303,17 +303,21 @@ class SatNet{
         listNodes(satellite->getRight());
     }
     //helper for removing deorbited nodes using recursion
-    void removeDeorbitedRecursive(Sat* satellite){
+    Sat* removeDeorbitedRecursive(Sat* satellite){
         if (satellite==nullptr)
-            return;
+            return satellite;
         // visit left child
-        removeDeorbitedRecursive(satellite->getLeft());
+        satellite->setLeft(removeDeorbitedRecursive(satellite->getLeft()));
+
+        // visit right child
+        satellite->setRight(removeDeorbitedRecursive(satellite->getRight()));
+
         // remove current node if state is deorbited
         if (satellite->getState()==DEORBITED){
             satellite = removeRecursive(satellite, satellite->getID());
         }
-        // visit right child
-        removeDeorbitedRecursive(satellite->getRight());
+        
+        return satellite;
     }
 };
 
