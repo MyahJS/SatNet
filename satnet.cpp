@@ -89,11 +89,34 @@ void SatNet::listSatellites() const {
 }
 
 bool SatNet::setState(int id, STATE state){
-    
+    // GetState
+    // preconditions: network exists
+    // postconditions: if locates node with specified id, set state to new state
+    if (m_root==nullptr)
+        return false;
+
+    Sat* current = m_root;
+    while (current!=nullptr){
+        if (id<current->getID()){
+            current = current->getLeft();
+        } else if (id>current->getID()){
+            current = current->getRight();
+        } else {
+            current->setState(state);
+            return true;
+        }
+    }
+
+    return false;
 }
 
 void SatNet::removeDeorbited(){
-    
+    // RemoveDeorbited
+    // preconditions: network exists
+    // postconditions: remove all nodes with deorbited state
+    if (m_root==nullptr)
+        return;
+    removeDeorbitedRecursive(m_root);
 }
 
 bool SatNet::findSatellite(int id) const {

@@ -290,9 +290,8 @@ class SatNet{
     //helper for recusively listing members of each node
     void listNodes(Sat* satellite) const{
         // first check if exists
-        if (satellite==nullptr){
+        if (satellite==nullptr)
             return;
-        }
         // visit left child
         listNodes(satellite->m_left);
         // print members of current node
@@ -300,6 +299,19 @@ class SatNet{
         // visit right child
         listNodes(satellite->getRight());
     }
-
+    //helper for removing deorbited nodes using recursion
+    void removeDeorbitedRecursive(Sat* satellite){
+        if (satellite==nullptr)
+            return;
+        // visit left child
+        removeDeorbitedRecursive(satellite->getLeft());
+        // remove current node if state is deorbited
+        if (satellite->getState()==DEORBITED){
+            satellite = removeRecursive(satellite, satellite->getID());
+        }
+        // visit right child
+        removeDeorbitedRecursive(satellite->getRight());
+    }
 };
+
 #endif

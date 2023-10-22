@@ -134,12 +134,15 @@ int main(){
     network.listSatellites();
     cout << endl;
 
-    network.remove(tempID);
+    network.setState(tempID, DEORBITED);
+    network.removeDeorbited();
     cout << "\nDump after removig the node with ID: " << tempID << "\n\n";
     network.dumpTree();
     cout << "\n\nList of satellites after removing the node with ID: " << tempID << "\n";
     network.listSatellites();
     cout << endl;
+
+
 
     return 0;
 }
