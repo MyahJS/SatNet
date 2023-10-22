@@ -293,14 +293,12 @@ class SatNet{
         if (satellite==nullptr){
             return;
         }
-        cout << endl;
         // visit left child
         listNodes(satellite->m_left);
         // print members of current node
-        cout << satellite->getID() << ": " << satellite->getState() << ": " << satellite->getInclinStr() << ": " << satellite->getAltStr();
+        cout << satellite->getID() << ": " << satellite->getState() << ": " << satellite->getInclinStr() << ": " << satellite->getAltStr() << endl;
         // visit right child
         listNodes(satellite->getRight());
-        cout << endl;
     }
 
 };

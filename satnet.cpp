@@ -83,7 +83,9 @@ void SatNet::listSatellites() const {
     // ListSatellites
     // preconditions: network exists
     // postconditions: prints all the members of each node in the tree
+    cout << endl;
     listNodes(m_root);
+    cout << endl;
 }
 
 bool SatNet::setState(int id, STATE state){
