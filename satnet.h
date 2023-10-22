@@ -287,107 +287,21 @@ class SatNet{
 
         return root;
     }
+    //helper for recusively listing members of each node
+    void listNodes(Sat* satellite) const{
+        // first check if exists
+        if (satellite==nullptr){
+            return;
+        }
+        cout << endl;
+        // visit left child
+        listNodes(satellite->m_left);
+        // print members of current node
+        cout << satellite->getID() << ": " << satellite->getState() << ": " << satellite->getInclinStr() << ": " << satellite->getAltStr();
+        // visit right child
+        listNodes(satellite->getRight());
+        cout << endl;
+    }
 
-    // //helper for deallocating tree
-    // void destroyTree(Sat* satellite){
-    //     if (satellite==nullptr){
-    //         return;
-    //     }
-    //     destroyTree(satellite->m_left);
-    //     destroyTree(satellite->m_right);
-    //     delete satellite;
-    // }
-    // //helper for getting the parent of a node
-    // Sat* getParent(Sat* satellite){
-    //     if (satellite==nullptr){
-    //         return nullptr;
-    //     }
-    //     Sat* parent = nullptr;
-    //     Sat* current = m_root;
-    //     while (current->m_id!=satellite->m_id){
-    //         parent = current;
-    //         if (satellite->m_id < current->m_id) {
-    //             current = current->m_left;
-    //         } else {
-    //             current = current->m_right;
-    //         }
-    //     }
-    //     return parent;
-    // }
-    // //helper for updating heights
-    // void updateHeight(Sat* node) {
-    //     if (node) {
-    //         // get height of left child if exists
-    //         int leftHeight = (node->m_left) ? node->m_left->m_height : 0;
-    //         // get height of right child if exists
-    //         int rightHeight = (node->m_right) ? node->m_right->m_height : 0;
-    //         node->m_height = max(leftHeight, rightHeight) + 1;
-    //     }
-    // }
-    // //helper for left rotation
-    // Sat* leftRotate(Sat* x) {
-    //     Sat* y = x->m_right;
-    //     Sat* T2 = y->m_left;
-    //     y->m_left = x;
-    //     x->m_right = T2;
-    //     updateHeight(x);
-    //     updateHeight(y);
-    //     return y;
-    // }
-    // //helper for right rotation
-    // Sat* rightRotate(Sat* y) {
-    //     Sat* x = y->m_left;
-    //     Sat* T2 = x->m_right;
-    //     x->m_right = y;
-    //     y->m_left = T2;
-    //     updateHeight(y);
-    //     updateHeight(x);
-    //     return x;
-    // }
-    // //helper for left right rotation
-    // Sat* leftRightRotate(Sat* x) {
-    //     x->m_left = leftRotate(x->m_left);
-    //     return rightRotate(x);
-    // }
-    // //helper for right left rotation
-    // Sat* rightLeftRotate(Sat* x) {
-    //     x->m_right = rightRotate(x->m_right);
-    //     return leftRotate(x);
-    // }
-    // //helper for getting inorder predecessor
-    // Sat* getInorderPredecessor(Sat* root, int key) {
-    //     if (!root){
-    //         return nullptr;
-    //     }
-    //     Sat* predecessor = nullptr;
-    //     while (root){
-    //         if (key > root->m_id){
-    //             predecessor = root;
-    //             root = root->m_right;
-    //         } else {
-    //             root = root->m_left;
-    //         }
-    //     }
-
-    //     return predecessor;
-    // }
-    // //helper for swaping the data in two nodes
-    // void swapNodes(Sat* node1, Sat* node2){
-    //     int id = node1->m_id;
-    //     ALT alt = node1->m_altitude;
-    //     INCLIN inclin = node1->m_inclin;
-    //     STATE state = node1->m_state; 
-    //     int height = node1->m_height;
-    //     node1->m_id = node2->m_id;
-    //     node1->m_altitude = node2->m_altitude;
-    //     node1->m_inclin = node2->m_inclin;
-    //     node1->m_state = node2->m_state;
-    //     node1->m_height = node2->m_height;
-    //     node2->m_id = id;
-    //     node2->m_altitude = alt;
-    //     node2->m_inclin = inclin;
-    //     node2->m_state = state;
-    //     node2->m_height = height;
-    // }
 };
 #endif

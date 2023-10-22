@@ -11,11 +11,6 @@ SatNet::~SatNet(){
     // Destructor
     // preconditions: tree is not empty
     // postconditions: deallocate all memory
-
-    // if (m_root!=nullptr){
-    //     destroyTree(m_root);
-    // }
-
     clear();
 }
 
@@ -50,14 +45,8 @@ void SatNet::insert(const Sat& satellite){
 void SatNet::clear(){
     // Clear
     // preconditions: tree is not empty
-    // postconditions: deallocate all memory and make empty tree
-    
-    // if (m_root!=nullptr){
-    //     destroyTree(m_root);
-    //     m_root = nullptr;
-    // }
-
-    clearRecursive(m_root);
+    // postconditions: deallocate all memory and make empty tree  
+    clearRecursive(m_root); // call helper to deallocate memory using recursion
     m_root = nullptr; // reinitialize root so tree becomes an empty tree
 }
 
@@ -74,104 +63,6 @@ void SatNet::remove(int id){
     }
     // remove node recursively using helper
     m_root = removeRecursive(m_root, id);
-
-    // if (m_root==nullptr){
-    //     cout << "Network is empty. Cannot delete satellite." << endl;
-    // }
-    // // locate node to delete
-    // Sat* current = m_root;
-    // Sat* parent = nullptr;
-    
-    // while (current!=nullptr&&current->m_id!=id){
-    //     parent = current;
-    //     if (id<current->m_id){
-    //         // traverse left
-    //         current = current->m_left;
-    //     } else {
-    //         // traverse right
-    //         current = current->m_right;
-    //     }
-    // }
-
-    // if (current==nullptr){
-    //     cout << "ID not found. Cannot delete satellite." << endl;
-    //     return;
-    // }
-
-    // // case 1: node is leaf
-    // if ((current->m_left==nullptr)&&(current->m_right==nullptr)){
-    //     if (parent!=nullptr){
-    //         if (parent->m_left == current) {
-    //             parent->m_left = nullptr;
-    //         } else {
-    //             parent->m_right = nullptr;
-    //         }
-    //     } else {
-    //         m_root = nullptr;
-    //     }
-    //     delete current;
-    //     updateHeight(parent);
-    // // case 2: node has one left child
-    // } else if ((current->m_left!=nullptr&&(current->m_right==nullptr))){
-    //     Sat* temp = current->m_left;
-    //     if (parent!=nullptr){
-    //         if (parent->m_left == current) {
-    //             parent->m_left = temp;
-    //         } else {
-    //             parent->m_right = temp;
-    //         }
-    //         updateHeight(parent);
-    //     } else {
-    //         // root node is deleted
-    //         m_root = temp;
-    //     }
-    //     delete current;
-    // // case 3: node has one right child
-    // } else if ((current->m_left==nullptr)&&(current->m_right!=nullptr)){
-    //     Sat* temp = current->m_right;
-    //     if (parent!=nullptr){
-    //         if (parent->m_left == current) {
-    //             parent->m_left = temp;
-    //         } else {
-    //             parent->m_right = temp;
-    //         }
-    //         updateHeight(parent);
-    //     } else {
-    //         // root node is deleted
-    //         m_root = temp;
-    //     }
-    //     delete current;
-    // // case 4: node has 2 children
-    // } else {
-    //     // get inorder predecessor
-    //     Sat* temp = getInorderPredecessor(m_root, current->m_id);
-    //     // swap data of predecessor and current
-    //     swapNodes(current, temp);
-
-    //     // check if predecessor has a left child
-    //     if (temp->m_left!=nullptr){
-    //         // swap data of predecessor and child
-    //         swapNodes(temp, temp->m_left);
-    //         // then delete child
-    //         delete temp->m_left;
-    //         temp->m_left = nullptr;
-
-    //         updateHeight(temp);
-    //         updateHeight(current);
-    //         if (parent!=nullptr){
-    //             updateHeight(parent);
-    //         }
-    //     } else {
-    //         getParent(temp)->m_left = nullptr;
-    //         delete temp;
-
-    //         updateHeight(current);
-    //         if (parent!=nullptr){
-    //             updateHeight(parent);
-    //         }
-    //     }
-    // }
-    // // check for and fix imbalances 
 }
 
 void SatNet::dumpTree() const {
@@ -189,7 +80,10 @@ void SatNet::dump(Sat* satellite) const{
 }
 
 void SatNet::listSatellites() const {
-
+    // ListSatellites
+    // preconditions: network exists
+    // postconditions: prints all the members of each node in the tree
+    listNodes(m_root);
 }
 
 bool SatNet::setState(int id, STATE state){
@@ -204,7 +98,6 @@ bool SatNet::findSatellite(int id) const {
     // FindSatellite
     // preconditions: tree exists
     // postconditions: return true if passed id is in the tree, else return false
-
     if (m_root==nullptr)
         return false;
 
