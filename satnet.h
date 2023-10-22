@@ -229,31 +229,34 @@ class SatNet{
         if (root == nullptr)
             return root;
 
-        // Find the node to remove
+        // find the node to remove
         if (id < root->getID())
             root->setLeft(removeRecursive(root->getLeft(), id));
         else if (id > root->getID())
             root->setRight(removeRecursive(root->getRight(), id));
         else {
-            // Node found, perform removal
-            if (root->getLeft() == nullptr || root->getRight() == nullptr) {
+            // case 1,2,3: leaf, one child left, one child right
+            if (root->getLeft()==nullptr || root->getRight()==nullptr) {
                 Sat* temp = root->getLeft() ? root->getLeft() : root->getRight();
 
+                // no children
                 if (temp == nullptr) {
                     temp = root;
                     root = nullptr;
+                // one child
                 } else
-                    *root = *temp;
+                    *root = *temp; // copy child's data to current node
 
                 delete temp;
+                temp = nullptr;
             } else {
-                // Node with two children, find the inorder successor
-                Sat* temp = findMinNode(root->getRight());
+                // case 4: two children
+                Sat* temp = findMinNode(root->getRight()); // inorder successor
 
-                // Copy the inorder successor's data to this node
+                // copy inorder successor's data to current node
                 *root = *temp;
 
-                // Delete the inorder successor
+                // delete inorder successor
                 root->setRight(removeRecursive(root->getRight(), temp->getID()));
             }
         }

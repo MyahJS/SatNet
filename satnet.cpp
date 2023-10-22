@@ -116,7 +116,7 @@ void SatNet::removeDeorbited(){
     // postconditions: remove all nodes with deorbited state
     if (m_root==nullptr)
         return;
-    removeDeorbitedRecursive(m_root);
+    removeDeorbitedRecursive(m_root); // awooga
 }
 
 bool SatNet::findSatellite(int id) const {
