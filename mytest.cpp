@@ -115,42 +115,47 @@ int main(){
     Random idGen(MINID,MAXID);
     Random inclinGen(0,3);  // there are 4 inclination
     Random altGen(0,3);     // there are 4 altitudes
+    {
+        SatNet network;
+        int teamSize = 10;
+        int tempID = 0;
+        int ID = 0;
+        for(int i=0;i<teamSize;i++){
+            ID = idGen.getRandNum();
+            if (i == teamSize / 2) tempID = ID;//we store this ID for later use
+            Sat satellite(ID,
+                        static_cast<ALT>(altGen.getRandNum()),
+                        static_cast<INCLIN>(inclinGen.getRandNum()));
+            network.insert(satellite);
+        }
+        cout << "\nDump after inserting " << teamSize << " nodes:\n\n";
+        network.dumpTree();
+        cout << "\n\nList of satellites after inserting " << teamSize << " nodes:\n";
+        network.listSatellites();
+        cout << endl;
 
-    SatNet network;
-    int teamSize = 10;
-    int tempID = 0;
-    int ID = 0;
-    for(int i=0;i<teamSize;i++){
-        ID = idGen.getRandNum();
-        if (i == teamSize / 2) tempID = ID;//we store this ID for later use
-        Sat satellite(ID,
+        network.remove(tempID);
+        cout << "\nDump after removig the node with ID: " << tempID << "\n\n";
+        network.dumpTree();
+        cout << "\n\nList of satellites after removing the node with ID: " << tempID << "\n";
+        network.listSatellites();
+        cout << endl;
+    }
+    SatNet network1;
+    int size = 1000;
+    int tempIDs[1001] = {0};
+    int id = 0;
+    for(int i=0;i<size;i++){
+        id = idGen.getRandNum();
+        tempIDs[i] = id;//we store this ID for later use
+        Sat satellite(id,
                     static_cast<ALT>(altGen.getRandNum()),
                     static_cast<INCLIN>(inclinGen.getRandNum()));
-        network.insert(satellite);
+        network1.insert(satellite);
     }
-    cout << "\nDump after inserting " << teamSize << " nodes:\n\n";
-    network.dumpTree();
-    cout << "\n\nList of satellites after inserting " << teamSize << " nodes:\n";
-    network.listSatellites();
-    cout << endl;
-
-    network.setState(tempID, DEORBITED);
-    network.listSatellites();
-    network.removeDeorbited();
-    cout << "\nDump after removig the node with ID: " << tempID << "\n\n";
-    network.dumpTree();
-    cout << "\n\nList of satellites after removing the node with ID: " << tempID << "\n";
-    network.listSatellites();
-    cout << endl;
-
-    SatNet network2;
-    network2 = network;
-    cout << "\nDump after copying data from previous network:" << "\n\n";
-    network2.dumpTree();
-    cout << "\n\nList of satellites after copying data from previous network:\n";
-    network2.listSatellites();
-    cout << endl;
-
+    cout << endl << "Calling Tester::sampleTimeMeasurement(...): " << endl;
+    cout << "\tFinding 1000 nodes takes " << tester.sampleTimeMeasurement(network1, tempIDs, size) << " seconds." << endl;
+    
     return 0;
 }
 

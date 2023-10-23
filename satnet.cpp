@@ -146,12 +146,18 @@ const SatNet & SatNet::operator=(const SatNet & rhs){
     // postconditions: create deep copy of rhs
     if (this != &rhs){
         clear();
-        copyRecursive(rhs.m_root); // recursive helper function;
+        m_root = copyRecursive(rhs.m_root); // recursive helper function
     }
 
     return *this;
 }
 
 int SatNet::countSatellites(INCLIN degree) const{
+    // CountSatellites
+    // preconditions: network exists
+    // postconditons: return number of nodes with the specified degree
+    if (m_root==nullptr)
+        return 0;
     
+    return countRecursive(m_root, degree); // recursive helper function
 }

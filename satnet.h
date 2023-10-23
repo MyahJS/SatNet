@@ -320,25 +320,38 @@ class SatNet{
         return satellite;
     }
     //helper to recursively copy the data
-    void copyRecursive(const Sat* root){
+    Sat* copyRecursive(const Sat* root){
         if (root==nullptr)
-            return;
-        Sat data;
-        data.setID(root->getID());
-        data.setState(root->getState());
-        data.setInclin(root->getInclin());
-        data.setAlt(root->getAlt());
-        data.setHeight(root->getHeight());
-        data.setLeft(root->getLeft());
-        data.setRight(root->getRight());
-
-        // insert current rhs node data into new tree
-        this->insert(data);
+            return nullptr;
+        
+        // create new node
+        Sat* newNode = new Sat(*root);
         
         // visit left child
-        copyRecursive(root->getLeft());
+        newNode->setLeft(copyRecursive(root->getLeft()));
         // visit right child
-        copyRecursive(root->getRight());
+        newNode->setRight(copyRecursive(root->getRight()));
+
+        return newNode;
+    }
+    //helper to recursively count nodes with specified degree
+    int countRecursive(Sat* root, INCLIN degree) const{
+        if (root==nullptr)
+            return 0;
+
+        int count = 0; // counter variable
+
+        // increment count if current node has correct degree
+        if (root->getInclin()==degree)
+            count += 1;
+
+        // visit left child
+        count += countRecursive(root->getLeft(), degree);
+
+        // visit right child
+        count += countRecursive(root->getRight(), degree);
+
+        return count;
     }
 };
 
