@@ -411,36 +411,42 @@ int main(){
         std::cout << "AssignmentTest not all cases passed!" << endl << endl;
     }
 
-    {
-        SatNet network;
-        int teamSize = 10;
-        int tempID = 0;
-        int ID = 0;
-        for(int i=0;i<teamSize;i++){
-            try{
-                ID = idGen.getRandNum();
-                if (i == teamSize / 2) tempID = ID;//we store this ID for later use
-                Sat satellite(ID,
-                            static_cast<ALT>(altGen.getRandNum()),
-                            static_cast<INCLIN>(inclinGen.getRandNum()));
-                network.insert(satellite);
-            } catch (const runtime_error& e) {
-                std::cout << string(e.what()) << endl;
-            }  
-        }
-        std::cout << "\nDump after inserting " << teamSize << " nodes:\n\n";
-        network.dumpTree();
-        std::cout << "\n\nList of satellites after inserting " << teamSize << " nodes:\n";
-        network.listSatellites();
-        std::cout << endl;
-
-        network.remove(tempID);
-        std::cout << "\nDump after removig the node with ID: " << tempID << "\n\n";
-        network.dumpTree();
-        std::cout << "\n\nList of satellites after removing the node with ID: " << tempID << "\n";
-        network.listSatellites();
-        std::cout << endl;
+    SatNet network;
+    int teamSize = 10;
+    int tempID = 0;
+    int ID = 0;
+    double T = 0.0;
+    clock_t start, stop;
+    start = clock();
+    for(int i=0;i<teamSize;i++){
+        try{
+            ID = idGen.getRandNum();
+            if (i == teamSize / 2) tempID = ID;//we store this ID for later use
+            Sat satellite(ID,
+                        static_cast<ALT>(altGen.getRandNum()),
+                        static_cast<INCLIN>(inclinGen.getRandNum()));
+            network.insert(satellite);
+        } catch (const runtime_error& e) {
+            std::cout << string(e.what()) << endl;
+        }  
     }
+    stop = clock();
+    T = stop - start;
+    double measureTime = T/CLOCKS_PER_SEC;
+
+    std::cout << "\nDump after inserting " << teamSize << " nodes:\n\n";
+    network.dumpTree();
+    std::cout << "\n\nList of satellites after inserting " << teamSize << " nodes:\n";
+    network.listSatellites();
+    std::cout << endl;
+
+    network.remove(tempID);
+    std::cout << "\nDump after removig the node with ID: " << tempID << "\n\n";
+    network.dumpTree();
+    std::cout << "\n\nList of satellites after removing the node with ID: " << tempID << "\n";
+    network.listSatellites();
+    std::cout << endl;
+    
     SatNet network1;
     int size = 300;
     int tempIDs[301] = {0};
@@ -456,6 +462,8 @@ int main(){
         } catch (const runtime_error& e) {}
     }
 
+    std::cout << "\tInserting " << size << " nodes takes " << measureTime << " seconds." << endl;
+
     if(tester.balanceTest(network1)){
         std::cout << "BalanceTest after " << size << " insertions passed!" << endl;
     } else {
@@ -467,11 +475,18 @@ int main(){
         std::cout << "BSTTest after " << size << " insertions failed!" << endl << endl;
     }
 
+    T = 0.0;
+    start = clock();
     for(int i=0;i<(size/2);i++){
         try{
             network1.remove(tempIDs[i]);
         } catch (const runtime_error& e) {}
     }
+    stop = clock();
+    T = stop - start;
+    measureTime = T/CLOCKS_PER_SEC;
+
+    std::cout << "\tRemoving " << size/2 << " nodes takes " << measureTime << " seconds." << endl;
 
     if(tester.balanceTest(network1)){
         std::cout << "BalanceTest after " << size/2 << " removals passed!" << endl;
