@@ -287,7 +287,7 @@ class Tester{
     }
 
     bool findSatelliteTest(){
-        bool all_result;
+        bool all_result = true;
 
         // normal case: find valid node in existing tree
         bool result = true;
