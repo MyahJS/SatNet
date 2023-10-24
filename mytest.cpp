@@ -323,8 +323,23 @@ int main(){
         std::cout << "BSTTest after " << size/2 << " removals failed!" << endl << endl;
     }
 
+    SatNet network2;
+    int size_2 = 1000;
+    int tempIDs_2[1001] = {0};
+    int id_2 = 0;
+    for(int i=0;i<size_2;i++){
+        try{
+            id_2 = idGen.getRandNum();
+            tempIDs_2[i] = id_2;//we store this ID for later use
+            Sat satellite(id_2,
+                        static_cast<ALT>(altGen.getRandNum()),
+                        static_cast<INCLIN>(inclinGen.getRandNum()));
+            network2.insert(satellite);
+        } catch (const runtime_error& e) {}
+    }
+
     std::cout << endl << "Calling Tester::sampleTimeMeasurement(...): " << endl;
-    std::cout << "\tFinding 1000 nodes takes " << tester.sampleTimeMeasurement(network1, tempIDs, size) << " seconds." << endl;
+    std::cout << "\tFinding 1000 nodes takes " << tester.sampleTimeMeasurement(network2, tempIDs_2, size_2) << " seconds." << endl;
     
     return 0;
 }
