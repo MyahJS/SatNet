@@ -292,9 +292,7 @@ int main(){
                         static_cast<ALT>(altGen.getRandNum()),
                         static_cast<INCLIN>(inclinGen.getRandNum()));
             network1.insert(satellite);
-        } catch (const runtime_error& e) {
-            std::cout << string(e.what()) << endl;
-        }
+        } catch (const runtime_error& e) {}
     }
 
     if(tester.balanceTest(network1)){
@@ -311,9 +309,7 @@ int main(){
     for(int i=0;i<(size/2);i++){
         try{
             network1.remove(tempIDs[i]);
-        } catch (const runtime_error& e) {
-            std::cout << string(e.what()) << endl;
-        }
+        } catch (const runtime_error& e) {}
     }
 
     if(tester.balanceTest(network1)){
