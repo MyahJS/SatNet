@@ -353,6 +353,37 @@ class SatNet{
 
         return count;
     }
+    //helper for checking if tree is balanced
+    bool SatNet::isBalanced(Sat* root){
+        if (root == nullptr) {
+            return true;
+        }
+
+        int balance = getBalance(root);
+
+        // check if current node is balanced
+        if (balance < -1 || balance > 1) {
+            return false; 
+        }
+
+        // visit left and right
+        return isBalanced(root->getLeft()) && isBalanced(root->getRight());
+    }
+    //helper to check if tree is a BST
+    bool SatNet::isBST(Sat* root, Sat* min, Sat* max){
+        if (root == nullptr) 
+            return true;
+
+        // check if id is within range
+        if ((min != nullptr && root->getID() <= min->getID()) ||
+            (max != nullptr && root->getID() >= max->getID())) {
+            return false; 
+        }
+
+        // visit left and right
+        return isBST(root->getLeft(), min, root) &&
+            isBST(root->getRight(), root, max);
+    }
 };
 
 #endif

@@ -220,6 +220,15 @@ class Tester{
 
         return all_result;
     }
+    
+    bool balanceTest(SatNet network){
+        return network.isBalanced(network.m_root);
+    }
+
+    bool BSTTest(SatNet network){
+        return network.isBST(network.m_root, nullptr, nullptr);
+    }
+
 
 };
 
@@ -240,7 +249,7 @@ int main(){
     } else {
         std::cout << "RemoveTest not all cases passed!" << endl << endl;
     }
-    
+
     {
         SatNet network;
         int teamSize = 10;
@@ -287,6 +296,37 @@ int main(){
             std::cout << string(e.what()) << endl;
         }
     }
+
+    if(tester.balanceTest(network1)){
+        std::cout << "BalanceTest after " << size << "insertions passed!" << endl;
+    } else {
+        std::cout << "BalanceTest after " << size << "insertions failed!" << endl;
+    }
+    if(tester.BSTTest(network1)){
+        std::cout << "BSTTest after " << size << "insertions passed!" << endl << endl;
+    } else {
+        std::cout << "BSTTest after " << size << "insertions failed!" << endl << endl;
+    }
+
+    for(int i=0;i<(size/2);i++){
+        try{
+            network1.remove(tempIDs[i]);
+        } catch (const runtime_error& e) {
+            std::cout << string(e.what()) << endl;
+        }
+    }
+
+    if(tester.balanceTest(network1)){
+        std::cout << "BalanceTest after " << size/2 << "removals passed!" << endl;
+    } else {
+        std::cout << "BalanceTest after " << size/2 << "removals failed!" << endl;
+    }
+    if(tester.BSTTest(network1)){
+        std::cout << "BSTTest after " << size/2 << "removals passed!" << endl << endl;
+    } else {
+        std::cout << "BSTTest after " << size/2 << "removals failed!" << endl << endl;
+    }
+
     std::cout << endl << "Calling Tester::sampleTimeMeasurement(...): " << endl;
     std::cout << "\tFinding 1000 nodes takes " << tester.sampleTimeMeasurement(network1, tempIDs, size) << " seconds." << endl;
     
