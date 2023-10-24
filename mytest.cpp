@@ -229,6 +229,143 @@ class Tester{
         return network.isBST(network.m_root, nullptr, nullptr);
     }
 
+    bool removeDeorbitedTest(){
+        SatNet aNet;
+        Sat aSat(10001, MI208, I48, ACTIVE);
+        Sat bSat(20002, MI208, I48, DEORBITED);
+        Sat cSat(30003, MI208, I48, ACTIVE);
+        Sat dSat(40004, MI208, I48, ACTIVE);
+        Sat eSat(50005, MI208, I48, DEORBITED);
+        Sat fSat(60006, MI208, I48, DEORBITED);
+        Sat gSat(70007, MI208, I48, ACTIVE);
+        Sat hSat(80008, MI208, I48, ACTIVE);
+        Sat iSat(90009, MI208, I48, ACTIVE);
+        aNet.insert(aSat);
+        aNet.insert(bSat);
+        aNet.insert(cSat);
+        aNet.insert(dSat);
+        aNet.insert(eSat);
+        aNet.insert(fSat);
+        aNet.insert(gSat);
+        aNet.insert(hSat);
+        aNet.insert(iSat);
+        aNet.removeDeorbited();
+
+        return (!aNet.findSatellite(20002))&&(!aNet.findSatellite(50005))&&(!aNet.findSatellite(60006));
+    }
+
+    bool countSatellitesTest(){
+        bool result = true;
+        SatNet aNet;
+        Sat aSat(10001, MI208, I48, ACTIVE);
+        Sat bSat(10002, MI208, I53, ACTIVE);
+        Sat cSat(10003, MI208, I53, ACTIVE);
+        Sat dSat(10004, MI208, I70, ACTIVE);
+        Sat eSat(10005, MI208, I70, ACTIVE);
+        Sat fSat(10006, MI208, I70, ACTIVE);
+        Sat gSat(10007, MI208, I97, ACTIVE);
+        Sat hSat(10008, MI208, I97, ACTIVE);
+        Sat iSat(10009, MI208, I97, ACTIVE);
+        Sat jSat(10010, MI208, I97, ACTIVE);
+        aNet.insert(aSat);
+        aNet.insert(bSat);
+        aNet.insert(cSat);
+        aNet.insert(dSat);
+        aNet.insert(eSat);
+        aNet.insert(fSat);
+        aNet.insert(gSat);
+        aNet.insert(hSat);
+        aNet.insert(iSat);
+        aNet.insert(jSat);
+
+        result = result && (aNet.countSatellites(I48)==1);
+        result = result && (aNet.countSatellites(I53)==2);
+        result = result && (aNet.countSatellites(I70)==3);
+        result = result && (aNet.countSatellites(I97)==4);
+
+        return result;
+    }
+
+    bool findSatelliteTest(){
+        bool all_result;
+
+        // normal case: find valid node in existing tree
+        bool result = true;
+        SatNet aNet;
+        Sat aSat(10001, MI208, I48, ACTIVE);
+        Sat bSat(20002, MI208, I48, ACTIVE);
+        Sat cSat(30003, MI208, I48, ACTIVE);
+        aNet.insert(aSat);
+        aNet.insert(bSat);
+        aNet.insert(cSat);
+
+        result = result && aNet.findSatellite(10001);
+        std::cout << "FindSatellite normal case: ";
+        if (result){
+            std::cout << "PASSED" << endl;
+        } else {
+            std::cout << "FAILED" << endl;
+        }
+        all_result = all_result && result;
+
+        // error case: find node in empty tree
+        result = true;
+        SatNet bNet;
+
+        result = result && (!bNet.findSatellite(10001));
+        std::cout << "FindSatellite error case: ";
+        if (result){
+            std::cout << "PASSED" << endl;
+        } else {
+            std::cout << "FAILED" << endl;
+        }
+        all_result = all_result && result;
+
+        return all_result;
+    }
+
+    bool assignmentTest(){
+        bool all_result = true;
+
+        // normal case: assign existing tree to another 
+        bool result = true;
+        SatNet aNet;
+        Sat aSat(10001, MI208, I48, ACTIVE);
+        Sat bSat(20002, MI208, I48, ACTIVE);
+        Sat cSat(30003, MI208, I48, ACTIVE);
+        aNet.insert(aSat);
+        aNet.insert(bSat);
+        aNet.insert(cSat);
+
+        SatNet bNet;
+        bNet = aNet;
+
+        result = result && (bNet.findSatellite(10001)&&bNet.findSatellite(20002)&&bNet.findSatellite(30003));
+        std::cout << "Assignment normal case: ";
+        if (result){
+            std::cout << "PASSED" << endl;
+        } else {
+            std::cout << "FAILED" << endl;
+        }
+        all_result = all_result && result;
+
+        // error case: assign empty tree to another
+        result = true;
+        SatNet cNet;
+        SatNet dNet;
+        dNet = cNet;
+
+        result = result && (dNet.m_root==nullptr);
+        std::cout << "Assignment error case: ";
+        if (result){
+            std::cout << "PASSED" << endl;
+        } else {
+            std::cout << "FAILED" << endl;
+        }
+        all_result = all_result && result;
+
+        return all_result;
+    }
 
 };
 
@@ -248,6 +385,30 @@ int main(){
         std::cout << "RemoveTest all cases passed!" << endl << endl;
     } else {
         std::cout << "RemoveTest not all cases passed!" << endl << endl;
+    }
+
+    if(tester.removeDeorbitedTest()){
+        std::cout << "RemoveDeorbitedTest all cases passed!" << endl << endl;
+    } else {
+        std::cout << "RemoveDeorbitedTest not all cases passed!" << endl << endl;
+    }
+
+    if(tester.countSatellitesTest()){
+        std::cout << "CountSatellitesTest all cases passed!" << endl << endl;
+    } else {
+        std::cout << "CountSatellitesTest not all cases passed!" << endl << endl;
+    }
+
+    if(tester.findSatelliteTest()){
+        std::cout << "FindSatelliteTest all cases passed!" << endl << endl;
+    } else {
+        std::cout << "FindSatelliteTest not all cases passed!" << endl << endl;
+    }
+
+    if(tester.assignmentTest()){
+        std::cout << "AssignmentTest all cases passed!" << endl << endl;
+    } else {
+        std::cout << "AssignmentTest not all cases passed!" << endl << endl;
     }
 
     {
