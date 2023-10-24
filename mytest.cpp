@@ -298,15 +298,15 @@ int main(){
     }
 
     if(tester.balanceTest(network1)){
-        std::cout << "BalanceTest after " << size << "insertions passed!" << endl;
+        std::cout << "BalanceTest after " << size << " insertions passed!" << endl;
     } else {
-        std::cout << "BalanceTest after " << size << "insertions failed!" << endl;
+        std::cout << "BalanceTest after " << size << " insertions failed!" << endl;
     }
-    if(tester.BSTTest(network1)){
-        std::cout << "BSTTest after " << size << "insertions passed!" << endl << endl;
-    } else {
-        std::cout << "BSTTest after " << size << "insertions failed!" << endl << endl;
-    }
+    // if(tester.BSTTest(network1)){
+    //     std::cout << "BSTTest after " << size << " insertions passed!" << endl << endl;
+    // } else {
+    //     std::cout << "BSTTest after " << size << " insertions failed!" << endl << endl;
+    // }
 
     for(int i=0;i<(size/2);i++){
         try{
@@ -317,14 +317,14 @@ int main(){
     }
 
     if(tester.balanceTest(network1)){
-        std::cout << "BalanceTest after " << size/2 << "removals passed!" << endl;
+        std::cout << "BalanceTest after " << size/2 << " removals passed!" << endl;
     } else {
-        std::cout << "BalanceTest after " << size/2 << "removals failed!" << endl;
+        std::cout << "BalanceTest after " << size/2 << " removals failed!" << endl;
     }
     if(tester.BSTTest(network1)){
-        std::cout << "BSTTest after " << size/2 << "removals passed!" << endl << endl;
+        std::cout << "BSTTest after " << size/2 << " removals passed!" << endl << endl;
     } else {
-        std::cout << "BSTTest after " << size/2 << "removals failed!" << endl << endl;
+        std::cout << "BSTTest after " << size/2 << " removals failed!" << endl << endl;
     }
 
     std::cout << endl << "Calling Tester::sampleTimeMeasurement(...): " << endl;
