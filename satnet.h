@@ -181,7 +181,7 @@ class SatNet{
             root->setRight(insertRecursive(root->getRight(), newNode));
         } else {
             // delete duplicate 
-            cout << "Duplicate ID. Insertion failed." << endl;
+            throw runtime_error("Duplicate ID. Insertion failed.");
             delete newNode;
             return nullptr;
         }

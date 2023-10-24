@@ -108,6 +108,33 @@ public:
 class Tester{
     public:
     double sampleTimeMeasurement(SatNet & aNet, int tempArray[], int arraySize);
+
+    bool insertTest(){
+        bool all_result = true;
+
+        // normal case: insert valid node into existing tree
+        bool result = true;
+        SatNet aNet;
+        Sat aSat(1, MI208, I48, ACTIVE);
+        Sat bSat(2, MI208, I48, ACTIVE);
+        Sat cSat(3, MI208, I48, ACTIVE);
+        aNet.insert(aSat);
+        aNet.insert(bSat);
+        aNet.insert(cSat);
+        result = result && (aNet.findSatellite(1)&&aNet.findSatellite(2)&&aNet.findSatellite(3));
+        cout << "Insert normal case: ";
+        if (result){
+            cout << "PASSED" << endl;
+        } else {
+            cout << "FAILED" << endl;
+        }
+        all_result = all_result && result;
+
+        // edge case; insert node with duplicate id 
+        result = true;
+        Sat dSat(3, MI208, I48, ACTIVE);
+
+    }
 };
 
 int main(){
@@ -121,12 +148,16 @@ int main(){
         int tempID = 0;
         int ID = 0;
         for(int i=0;i<teamSize;i++){
-            ID = idGen.getRandNum();
-            if (i == teamSize / 2) tempID = ID;//we store this ID for later use
-            Sat satellite(ID,
-                        static_cast<ALT>(altGen.getRandNum()),
-                        static_cast<INCLIN>(inclinGen.getRandNum()));
-            network.insert(satellite);
+            try{
+                ID = idGen.getRandNum();
+                if (i == teamSize / 2) tempID = ID;//we store this ID for later use
+                Sat satellite(ID,
+                            static_cast<ALT>(altGen.getRandNum()),
+                            static_cast<INCLIN>(inclinGen.getRandNum()));
+                network.insert(satellite);
+            } catch (const runtime_error& e) {
+                cout << string(e.what()) << endl;
+            }  
         }
         cout << "\nDump after inserting " << teamSize << " nodes:\n\n";
         network.dumpTree();
@@ -146,12 +177,16 @@ int main(){
     int tempIDs[1001] = {0};
     int id = 0;
     for(int i=0;i<size;i++){
-        id = idGen.getRandNum();
-        tempIDs[i] = id;//we store this ID for later use
-        Sat satellite(id,
-                    static_cast<ALT>(altGen.getRandNum()),
-                    static_cast<INCLIN>(inclinGen.getRandNum()));
-        network1.insert(satellite);
+        try{
+            id = idGen.getRandNum();
+            tempIDs[i] = id;//we store this ID for later use
+            Sat satellite(id,
+                        static_cast<ALT>(altGen.getRandNum()),
+                        static_cast<INCLIN>(inclinGen.getRandNum()));
+            network1.insert(satellite);
+        } catch (const runtime_error& e) {
+            cout << string(e.what()) << endl;
+        }
     }
     cout << endl << "Calling Tester::sampleTimeMeasurement(...): " << endl;
     cout << "\tFinding 1000 nodes takes " << tester.sampleTimeMeasurement(network1, tempIDs, size) << " seconds." << endl;

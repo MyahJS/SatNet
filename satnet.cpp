@@ -22,7 +22,7 @@ void SatNet::insert(const Sat& satellite){
 
     // check for invalid ID
     if (satellite.getID() < MINID || satellite.getID() > MAXID) {
-        cout << "Invalid ID. Insertion failed." << endl;
+        throw runtime_error("Invalid ID. Insertion failed.");
         return;
     }
 
@@ -58,7 +58,7 @@ void SatNet::remove(int id){
 
     // check if id is in tree
     if (!findSatellite(id)) {
-        cout << "ID " << id << " not found. Removal failed." << endl;
+        throw runtime_error("ID not found. Removal failed.");
         return;
     }
     // remove node recursively using helper
