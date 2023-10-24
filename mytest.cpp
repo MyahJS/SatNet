@@ -221,11 +221,11 @@ class Tester{
         return all_result;
     }
     //i
-    bool balanceTest(SatNet network){
+    bool balanceTest(SatNet& network){
         return network.isBalanced(network.m_root);
     }
 
-    bool BSTTest(SatNet network){
+    bool BSTTest(SatNet& network){
         return network.isBST(network.m_root, nullptr, nullptr);
     }
 
