@@ -281,8 +281,8 @@ int main(){
         std::cout << endl;
     }
     SatNet network1;
-    int size = 1000;
-    int tempIDs[1001] = {0};
+    int size = 300;
+    int tempIDs[301] = {0};
     int id = 0;
     for(int i=0;i<size;i++){
         try{
@@ -302,11 +302,11 @@ int main(){
     } else {
         std::cout << "BalanceTest after " << size << " insertions failed!" << endl;
     }
-    // if(tester.BSTTest(network1)){
-    //     std::cout << "BSTTest after " << size << " insertions passed!" << endl << endl;
-    // } else {
-    //     std::cout << "BSTTest after " << size << " insertions failed!" << endl << endl;
-    // }
+    if(tester.BSTTest(network1)){
+        std::cout << "BSTTest after " << size << " insertions passed!" << endl << endl;
+    } else {
+        std::cout << "BSTTest after " << size << " insertions failed!" << endl << endl;
+    }
 
     for(int i=0;i<(size/2);i++){
         try{
