@@ -115,26 +115,112 @@ class Tester{
         // normal case: insert valid node into existing tree
         bool result = true;
         SatNet aNet;
-        Sat aSat(1, MI208, I48, ACTIVE);
-        Sat bSat(2, MI208, I48, ACTIVE);
-        Sat cSat(3, MI208, I48, ACTIVE);
+        Sat aSat(10001, MI208, I48, ACTIVE);
+        Sat bSat(20002, MI208, I48, ACTIVE);
+        Sat cSat(30003, MI208, I48, ACTIVE);
         aNet.insert(aSat);
         aNet.insert(bSat);
         aNet.insert(cSat);
-        result = result && (aNet.findSatellite(1)&&aNet.findSatellite(2)&&aNet.findSatellite(3));
-        cout << "Insert normal case: ";
+        result = result && (aNet.findSatellite(10001)&&aNet.findSatellite(20002)&&aNet.findSatellite(30003));
+        std::cout << "Insert normal case: ";
         if (result){
-            cout << "PASSED" << endl;
+            std::cout << "PASSED" << endl;
         } else {
-            cout << "FAILED" << endl;
+            std::cout << "FAILED" << endl;
         }
         all_result = all_result && result;
 
-        // edge case; insert node with duplicate id 
+        // edge case: insert node with duplicate id 
         result = true;
-        Sat dSat(3, MI208, I48, ACTIVE);
+        Sat dSat(30003, MI208, I48, ACTIVE);
+        try{
+            aNet.insert(dSat);
+        } catch(runtime_error& e) {
+            result = result && (string(e.what())=="Duplicate ID. Insertion failed.");
+        }
+        std::cout << "Insert edge case: ";
+        if (result){
+            std::cout << "PASSED" << endl;
+        } else {
+            std::cout << "FAILED" << endl;
+        }
+        all_result = all_result && result;
 
+        // error case: insert node with invalid id
+        result = true;
+        Sat eSat(1, MI208, I48, ACTIVE);
+        try{
+            aNet.insert(eSat);
+        } catch(runtime_error& e){
+            result = result && (string(e.what())=="Invalid ID. Insertion failed.");
+        }
+        std::cout << "Insert error case: ";
+        if (result){
+            std::cout << "PASSED" << endl;
+        } else {
+            std::cout << "FAILED" << endl;
+        }
+        all_result = all_result && result;
+
+        return all_result;
     }
+
+    bool removeTest(){
+        bool all_result = true;
+        SatNet aNet;
+        Sat aSat(10001, MI208, I48, ACTIVE);
+        Sat bSat(20002, MI208, I48, ACTIVE);
+        Sat cSat(30003, MI208, I48, ACTIVE);
+        aNet.insert(aSat);
+        aNet.insert(bSat);
+        aNet.insert(cSat);
+
+        // normal case: remove valid node from existing tree
+        bool result = true;
+        aNet.remove(10001);
+        result = result && (!aNet.findSatellite(10001));
+        std::cout << "Remove normal case: ";
+        if (result){
+            std::cout << "PASSED" << endl;
+        } else {
+            std::cout << "FAILED" << endl;
+        }
+        all_result = all_result && result;
+
+        // edge case: remove last node from existing tree
+        result = true;
+        aNet.remove(20002);
+        aNet.remove(30003);
+        result = result && (aNet.m_root==nullptr);
+        std::cout << "Remove edge case: ";
+        if (result){
+            std::cout << "PASSED" << endl;
+        } else {
+            std::cout << "FAILED" << endl;
+        }
+        all_result = all_result && result;
+
+        // error case: remove invalid node from an existing tree
+        result = true;
+        aNet.insert(aSat);
+        aNet.insert(bSat);
+        aNet.insert(cSat);
+        try{
+            aNet.remove(40004);
+        } catch(runtime_error& e) {
+            result = result && (string(e.what())=="ID not found. Removal failed.");
+        }
+        std::cout << "Remove error case: ";
+        if (result){
+            std::cout << "PASSED" << endl;
+        } else {
+            std::cout << "FAILED" << endl;
+        }
+        all_result = all_result && result;
+
+        return all_result;
+    }
+
 };
 
 int main(){
@@ -142,6 +228,19 @@ int main(){
     Random idGen(MINID,MAXID);
     Random inclinGen(0,3);  // there are 4 inclination
     Random altGen(0,3);     // there are 4 altitudes
+
+    if(tester.insertTest()){
+        std::cout << "InsertTest all cases passed!" << endl << endl;
+    } else {
+        std::cout << "InsertTest not all cases passed!" << endl << endl;
+    }
+
+    if(tester.removeTest()){
+        std::cout << "RemoveTest all cases passed!" << endl << endl;
+    } else {
+        std::cout << "RemoveTest not all cases passed!" << endl << endl;
+    }
+    
     {
         SatNet network;
         int teamSize = 10;
@@ -156,21 +255,21 @@ int main(){
                             static_cast<INCLIN>(inclinGen.getRandNum()));
                 network.insert(satellite);
             } catch (const runtime_error& e) {
-                cout << string(e.what()) << endl;
+                std::cout << string(e.what()) << endl;
             }  
         }
-        cout << "\nDump after inserting " << teamSize << " nodes:\n\n";
+        std::cout << "\nDump after inserting " << teamSize << " nodes:\n\n";
         network.dumpTree();
-        cout << "\n\nList of satellites after inserting " << teamSize << " nodes:\n";
+        std::cout << "\n\nList of satellites after inserting " << teamSize << " nodes:\n";
         network.listSatellites();
-        cout << endl;
+        std::cout << endl;
 
         network.remove(tempID);
-        cout << "\nDump after removig the node with ID: " << tempID << "\n\n";
+        std::cout << "\nDump after removig the node with ID: " << tempID << "\n\n";
         network.dumpTree();
-        cout << "\n\nList of satellites after removing the node with ID: " << tempID << "\n";
+        std::cout << "\n\nList of satellites after removing the node with ID: " << tempID << "\n";
         network.listSatellites();
-        cout << endl;
+        std::cout << endl;
     }
     SatNet network1;
     int size = 1000;
@@ -185,11 +284,11 @@ int main(){
                         static_cast<INCLIN>(inclinGen.getRandNum()));
             network1.insert(satellite);
         } catch (const runtime_error& e) {
-            cout << string(e.what()) << endl;
+            std::cout << string(e.what()) << endl;
         }
     }
-    cout << endl << "Calling Tester::sampleTimeMeasurement(...): " << endl;
-    cout << "\tFinding 1000 nodes takes " << tester.sampleTimeMeasurement(network1, tempIDs, size) << " seconds." << endl;
+    std::cout << endl << "Calling Tester::sampleTimeMeasurement(...): " << endl;
+    std::cout << "\tFinding 1000 nodes takes " << tester.sampleTimeMeasurement(network1, tempIDs, size) << " seconds." << endl;
     
     return 0;
 }
