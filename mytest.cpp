@@ -220,7 +220,7 @@ class Tester{
 
         return all_result;
     }
-    
+    //i
     bool balanceTest(SatNet network){
         return network.isBalanced(network.m_root);
     }

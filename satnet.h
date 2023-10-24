@@ -354,7 +354,7 @@ class SatNet{
         return count;
     }
     //helper for checking if tree is balanced
-    bool SatNet::isBalanced(Sat* root){
+    bool isBalanced(Sat* root){
         if (root == nullptr) {
             return true;
         }
@@ -370,7 +370,7 @@ class SatNet{
         return isBalanced(root->getLeft()) && isBalanced(root->getRight());
     }
     //helper to check if tree is a BST
-    bool SatNet::isBST(Sat* root, Sat* min, Sat* max){
+    bool isBST(Sat* root, Sat* min, Sat* max){
         if (root == nullptr) 
             return true;
 
